@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
       message: "Conversations fetchedsuccessfully",
     });
   } catch (err) {
-    res.status(500).json({ status: 500, data: null, message: error });
+    res.status(500).json({ status: 500, data: null, message: err });
   }
 });
 
@@ -29,7 +29,7 @@ router.get("/:conversationId", async (req, res) => {
       message: "Conversation fetched successfully",
     });
   } catch (err) {
-    res.status(500).json({ status: 500, data: null, message: error });
+    res.status(500).json({ status: 500, data: null, message: err });
   }
 });
 
@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
       message: "Conversation saved successfully",
     });
   } catch (err) {
-    res.status(500).json({ status: 500, data: null, message: error });
+    res.status(500).json({ status: 500, data: null, message: err });
   }
 });
 
@@ -65,8 +65,8 @@ router.put("/:conversationId", async (req, res) => {
       status: 200,
       message: "conversation updated successfully",
     });
-  } catch (error) {
-    res.status(500).json({ status: 500, data: null, message: error });
+  } catch (err) {
+    res.status(500).json({ status: 500, data: null, message: err });
   }
 });
 
@@ -80,8 +80,8 @@ router.delete("/:conversationId", async (req, res) => {
       status: 200,
       data: null,
     });
-  } catch (error) {
-    res.status(500).json({ status: 500, data: null, message: error });
+  } catch (err) {
+    res.status(500).json({ status: 500, data: null, message: err });
   }
 });
 

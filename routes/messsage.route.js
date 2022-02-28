@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
       message: "messages fetchedsuccessfully",
     });
   } catch (err) {
-    res.status(500).json({ status: 500, data: null, message: error });
+    res.status(500).json({ status: 500, data: null, message: err });
   }
 });
 
@@ -29,7 +29,7 @@ router.get("/:messageId", async (req, res) => {
       message: "message fetched successfully",
     });
   } catch (err) {
-    res.status(500).json({ status: 500, data: null, message: error });
+    res.status(500).json({ status: 500, data: null, message: err });
   }
 });
 
@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
       message: "message saved successfully",
     });
   } catch (err) {
-    res.status(500).json({ status: 500, data: null, message: error });
+    res.status(500).json({ status: 500, data: null, message: err });
   }
 });
 
@@ -62,8 +62,8 @@ router.put("/:messageId", async (req, res) => {
       status: 200,
       message: "message updated successfully",
     });
-  } catch (error) {
-    res.status(500).json({ status: 500, data: null, message: error });
+  } catch (err) {
+    res.status(500).json({ status: 500, data: null, message: err });
   }
 });
 
@@ -77,8 +77,8 @@ router.delete("/:messageId", async (req, res) => {
       status: 200,
       data: null,
     });
-  } catch (error) {
-    res.status(500).json({ status: 500, data: null, message: error });
+  } catch (err) {
+    res.status(500).json({ status: 500, data: null, message: err });
   }
 });
 
