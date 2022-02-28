@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const http = require("http");
-
+const bodyParser = require("body-parser");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
@@ -10,6 +10,7 @@ const messageRoutes = require("./routes/messsage.route");
 
 require("dotenv").config();
 require("./db")();
+app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
   res.send("<h1>Hello world</h1>");
