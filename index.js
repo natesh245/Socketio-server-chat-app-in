@@ -7,7 +7,7 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 const conversationRoutes = require("./routes/conversation.route");
 const messageRoutes = require("./routes/messsage.route");
-
+// const messageModel = require("./models/message.model");
 require("dotenv").config();
 require("./db")();
 app.use(bodyParser.json());
@@ -19,15 +19,30 @@ app.get("/", (req, res) => {
 app.use("/conversation", conversationRoutes);
 app.use("/message", messageRoutes);
 
+const userToSocketMap = {};
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  const user_id = socket.handshake.query.user_id;
+  socket.user_id = user_id;
+
+  userToSocketMap[user_id] = socket.id;
+
+  console.log("--------connected--------");
+  console.log(`A user connected with socket-id = ${socket.id}`);
+  console.log(userToSocketMap);
+  console.log("--------connected--------");
   socket.on("disconnect", () => {
-    console.log("user disconnected");
+    delete userToSocketMap[socket.user_id];
+    console.log("-----disconnected--------------");
+    console.log(`user with socket id=${socket.id} disconnected`);
+    console.log(userToSocketMap);
+    console.log("-----disconnected--------------");
   });
 
-  socket.on("some-event", (message) => {
-    console.log(message);
-    io.emit("hi", "hello from socket server");
+  socket.on("send-message", async (message) => {
+    // const messageDoc = new messageModel(message);
+    // await messageDoc.save();
+    const receiverSocketId = userToSocketMap[message.receiverID];
+    io.to(receiverSocketId).emit("receive-message", message);
   });
 });
 
