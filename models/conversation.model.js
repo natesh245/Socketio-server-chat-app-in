@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const messageModel = require("./message.model");
 const { Schema } = mongoose;
 
 const memberSChema = new Schema(
@@ -19,5 +20,10 @@ const conversationSchema = new Schema(
     timestamps: true,
   }
 );
+
+//delete all messages linked to a conversation in case deleted
+conversationSchema.post("findOneAndDelete", async (doc) => {
+  await messageModel.deleteMany({ conversationID: doc._id });
+});
 
 module.exports = mongoose.model("Conversation", conversationSchema);

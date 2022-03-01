@@ -91,7 +91,7 @@ router.delete("/:conversationId", async (req, res) => {
   try {
     const conversationId = req.params.conversationId;
 
-    await conversationModel.deleteOne({ _id: conversationId });
+    await conversationModel.findOneAndDelete({ _id: conversationId });
     res.status(200).json({
       message: "conversation deleted succesfully",
       status: 200,
