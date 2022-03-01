@@ -33,6 +33,22 @@ router.get("/:messageId", async (req, res) => {
   }
 });
 
+//get messages  by conversation id
+router.get("/conversation/:conversationId", async (req, res) => {
+  try {
+    const message = await messageModel.find({
+      conversationID: req.params.conversationId,
+    });
+    res.status(200).json({
+      data: message,
+      status: 200,
+      message: "message fetched successfully",
+    });
+  } catch (err) {
+    res.status(500).json({ status: 500, data: null, message: err });
+  }
+});
+
 //post message
 router.post("/", async (req, res) => {
   try {
