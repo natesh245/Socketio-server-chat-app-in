@@ -33,6 +33,23 @@ router.get("/:conversationId", async (req, res) => {
   }
 });
 
+//get conversation by user id
+
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const conversation = await conversationModel.find({
+      "members.user_id": req.params.userId,
+    });
+    res.status(200).json({
+      data: conversation,
+      status: 200,
+      message: "Conversation fetched successfully",
+    });
+  } catch (err) {
+    res.status(500).json({ status: 500, data: null, message: err });
+  }
+});
+
 //post conversation
 router.post("/", async (req, res) => {
   try {
