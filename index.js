@@ -16,8 +16,8 @@ app.get("/", (req, res) => {
   res.send("<h1>Hello world</h1>");
 });
 
-app.use("/conversation", conversationRoutes);
-app.use("/message", messageRoutes);
+app.use("/api/chat/conversation", conversationRoutes);
+app.use("/api/chat/message", messageRoutes);
 
 const userToSocketMap = {};
 io.on("connection", (socket) => {
@@ -42,6 +42,7 @@ io.on("connection", (socket) => {
     // const messageDoc = new messageModel(message);
     // await messageDoc.save();
     const receiverSocketId = userToSocketMap[message.receiverID];
+    if (!receiverSocketId) return;
     io.to(receiverSocketId).emit("receive-message", message);
   });
 });
