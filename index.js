@@ -5,9 +5,14 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
 const conversationRoutes = require("./routes/conversation.route");
 const messageRoutes = require("./routes/messsage.route");
+const messageModel = require("./models/message.model.js");
 
 // const messageModel = require("./models/message.model");
 require("dotenv").config();
@@ -42,8 +47,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send-message", async (message) => {
-    // const messageDoc = new messageModel(message);
-    // await messageDoc.save();
+    console.log(message);
+    const messageDoc = new messageModel(message);
+    await messageDoc.save();
     const receiverSocketId = userToSocketMap[message.receiverID];
     if (!receiverSocketId) return;
     io.to(receiverSocketId).emit("receive-message", message);
